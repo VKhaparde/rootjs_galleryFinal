@@ -32,19 +32,37 @@ function makeGallery(imageArray){
 	//create a loop to go through the images in the imageArray
 		//create the elements needed for each picture, store the elements in variable
 
-		//attach a click handler to the figure you create.  call the "displayImage" function.  
+		//attach a click handler to the figure you create.  call the "displayImage" function.
 
 		//append the element to the #gallery section
-	
-	// side note: make sure to remove the hard coded html in the index.html when you are done!
 
+	// side note: make sure to remove the hard coded html in the index.html when you are done!
+	for(var imgIndex = 0;imgIndex < imageArray.length; imgIndex++){
+/*
+		<figure class="imageGallery col-xs-12 col-sm-6 col-md-4" style="background-image:url(images/landscape-1.jpg);">
+			<figcaption>landscape-1.jpg</figcaption>
+		</figure>
+*/
+		var figureParameters ={
+			class:'imageGallery col-xs-12 col-sm-6 col-md-4',
+			style:'background-image:url('+imageArray[imgIndex]+')'
+		};
+		var figure = $("<figure>",figureParameters);
+		figure.click(displayImage);
+		$('#gallery').append(figure);
+	}
 }
+
 
 function addModalCloseHandler(){
 	//add a click handler to the img element in the image modal.  When the element is clicked, close the modal
-	//for more info, check here: https://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp	
-}
+	//for more info, check here: https://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
 
+	$('#galleryModal').click(function(){
+		$(this).modal("hide");
+	})
+
+}
 function displayImage(){
 	//find the url of the image by grabbing the background-image source, store it in a variable
 	//grab the direct url of the image by getting rid of the other pieces you don't need
@@ -56,11 +74,20 @@ function displayImage(){
 	//change the modal-title text to the name you found above
 	//change the src of the image in the modal to the url of the image that was clicked on
 
-	//show the modal with JS.  Check for more info here: 
+	//show the modal with JS.  Check for more info here:
 	//https://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
+
+
+	var figUrl = $(this).css('background-image');
+	figUrl = figUrl.slice(10,figUrl.length-2);
+	//console.log(figUrl);
+	var Url = figUrl;
+	var lIndex = figUrl.lastIndexOf('images');
+	lIndex = lIndex + 7;
+	figUrl =figUrl.slice(lIndex,figUrl.length - 4);
+	//console.log(figUrl);
+	$('.modal-title').text(figUrl);
+	$('.modal-body > img').attr('src',Url);
+	$('#galleryModal').modal("show");
+
 }
-
-
-
-
-
